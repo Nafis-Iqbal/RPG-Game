@@ -238,7 +238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character: 1
   previousCharacter: 0
-  MovementControl: 0
+  MovementControl: 1
   previousState: 0
   characterMoveSpeed: 0
   npcStartWaitTime: 0

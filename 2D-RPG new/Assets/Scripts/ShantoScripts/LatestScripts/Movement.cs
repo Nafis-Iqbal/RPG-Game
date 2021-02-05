@@ -30,7 +30,7 @@ public class Movement : MonoBehaviour
     #region Primitives
 
     //[HideInInspector] public float playerInteractionDistance; //TODO:..
-    public float characterMoveSpeed; // used for player speed
+    public float characterMoveSpeed; // used for player speed. (applicable for all character that becomes player.. )
 
     private int[] hitProbTable;
     private int destPoint = 0, total, cnt = 0; // for patrol enemies.. // total for critical hit
@@ -766,8 +766,8 @@ public class Movement : MonoBehaviour
     /// </summary>
     private void AnimateMovement()
     {
-       
-        if(aIDestinationSetter.target!=null  && path.enabled && !path.reachedDestination && Vector2.Distance(transform.position, aIDestinationSetter.target.position) > 0.01f)
+        // AI is on but destination not reached. 
+        if (aIDestinationSetter.target!=null  && path.enabled && !path.reachedDestination && Vector2.Distance(transform.position, aIDestinationSetter.target.position) > 0.01f)
         {
 
             animation_direction = transform.position - PrevLocation;
@@ -787,8 +787,10 @@ public class Movement : MonoBehaviour
             }
 
         }
+        // AI is on but destination reached. 
         else if(aIDestinationSetter.target!=null  && path.enabled && path.reachedDestination )
         {
+            Debug.LogError(aIDestinationSetter.target);
 
             animation_direction = targetForDirection - (Vector2)transform.position;
 
@@ -805,6 +807,7 @@ public class Movement : MonoBehaviour
             }
 
         }
+        // when AI is off. 
         else
         {
             animator.SetFloat("Speed", moveSpeed);

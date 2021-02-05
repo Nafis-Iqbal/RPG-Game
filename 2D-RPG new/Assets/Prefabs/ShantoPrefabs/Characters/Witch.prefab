@@ -672,9 +672,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a2a6f407f2f6654bb6d24c8aa81e2db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: 0
+  character: 1
   previousCharacter: 0
-  MovementControl: 0
+  MovementControl: 1
   previousState: 0
   characterMoveSpeed: 0
   npcStartWaitTime: 0

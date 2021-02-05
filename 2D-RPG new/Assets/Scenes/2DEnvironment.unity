@@ -48972,7 +48972,7 @@ PrefabInstance:
     - target: {fileID: 5098450398515338323, guid: 81e8bea2d28795842925b2daabba5117,
         type: 3}
       propertyPath: movementSpeed_archer
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5098450398515338323, guid: 81e8bea2d28795842925b2daabba5117,
         type: 3}
