@@ -240,6 +240,66 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3621261064660041041, guid: 13847c3d98b7a1e49a21ad29cb78bcd0,
+        type: 3}
+      propertyPath: myPatrolPoints.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3621261064660041041, guid: 13847c3d98b7a1e49a21ad29cb78bcd0,
+        type: 3}
+      propertyPath: myPatrolPoints.Array.data[0].point
+      value: 
+      objectReference: {fileID: 3223053915024184980}
+    - target: {fileID: 3621261064660041041, guid: 13847c3d98b7a1e49a21ad29cb78bcd0,
+        type: 3}
+      propertyPath: myPatrolPoints.Array.data[1].point
+      value: 
+      objectReference: {fileID: 8119430933992324509}
+    - target: {fileID: 3621261064660041041, guid: 13847c3d98b7a1e49a21ad29cb78bcd0,
+        type: 3}
+      propertyPath: myPatrolPoints.Array.data[2].point
+      value: 
+      objectReference: {fileID: 8123488445444764908}
+    - target: {fileID: 3621261064660041041, guid: 13847c3d98b7a1e49a21ad29cb78bcd0,
+        type: 3}
+      propertyPath: myPatrolPoints.Array.data[3].waitTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3621261064660041041, guid: 13847c3d98b7a1e49a21ad29cb78bcd0,
+        type: 3}
+      propertyPath: myPatrolPoints.Array.data[3].point
+      value: 
+      objectReference: {fileID: 3291698476895349214}
+    - target: {fileID: 3621261064660041041, guid: 13847c3d98b7a1e49a21ad29cb78bcd0,
+        type: 3}
+      propertyPath: myPatrolPoints.Array.data[1].waitTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3621261064660041041, guid: 13847c3d98b7a1e49a21ad29cb78bcd0,
+        type: 3}
+      propertyPath: myPatrolPoints.Array.data[1].willEnemyWait
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3621261064660041041, guid: 13847c3d98b7a1e49a21ad29cb78bcd0,
+        type: 3}
+      propertyPath: myPatrolPoints.Array.data[0].willEnemyWait
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3621261064660041041, guid: 13847c3d98b7a1e49a21ad29cb78bcd0,
+        type: 3}
+      propertyPath: myPatrolPoints.Array.data[0].waitTime
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3621261064660041041, guid: 13847c3d98b7a1e49a21ad29cb78bcd0,
+        type: 3}
+      propertyPath: myPatrolPoints.Array.data[2].waitTime
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3621261064660041041, guid: 13847c3d98b7a1e49a21ad29cb78bcd0,
+        type: 3}
+      propertyPath: myPatrolPoints.Array.data[2].willEnemyWait
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3621261065156082779, guid: 13847c3d98b7a1e49a21ad29cb78bcd0,
         type: 3}
       propertyPath: m_LocalPosition.x

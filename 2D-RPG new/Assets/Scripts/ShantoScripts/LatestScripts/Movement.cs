@@ -790,7 +790,7 @@ public class Movement : MonoBehaviour
         // AI is on but destination reached. 
         else if(aIDestinationSetter.target!=null  && path.enabled && path.reachedDestination )
         {
-            Debug.LogError(aIDestinationSetter.target);
+            //Debug.LogError(aIDestinationSetter.target);
 
             animation_direction = targetForDirection - (Vector2)transform.position;
 
