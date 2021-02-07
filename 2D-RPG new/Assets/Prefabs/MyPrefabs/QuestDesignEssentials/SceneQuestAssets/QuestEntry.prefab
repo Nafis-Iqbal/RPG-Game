@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9121101093773804321}
+  - component: {fileID: 2498054432096582296}
   m_Layer: 0
   m_Name: QuestEntry
   m_TagString: Untagged
@@ -36,6 +37,80 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2498054432096582296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181984083322172275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 244bfde6ded633d44b9dd62830290678, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  convoObjects:
+  - convoObject: {fileID: 0}
+    lastUsedTime: 0
+    breakDuration: 0
+    isTriggered: 0
+  - convoObject: {fileID: 0}
+    lastUsedTime: 0
+    breakDuration: 0
+    isTriggered: 0
+  - convoObject: {fileID: 0}
+    lastUsedTime: 0
+    breakDuration: 0
+    isTriggered: 0
+  - convoObject: {fileID: 0}
+    lastUsedTime: 0
+    breakDuration: 0
+    isTriggered: 0
+  - convoObject: {fileID: 0}
+    lastUsedTime: 0
+    breakDuration: 0
+    isTriggered: 0
+  - convoObject: {fileID: 0}
+    lastUsedTime: 0
+    breakDuration: 0
+    isTriggered: 0
+  - convoObject: {fileID: 0}
+    lastUsedTime: 0
+    breakDuration: 0
+    isTriggered: 0
+  - convoObject: {fileID: 0}
+    lastUsedTime: 0
+    breakDuration: 0
+    isTriggered: 0
+  - convoObject: {fileID: 0}
+    lastUsedTime: 0
+    breakDuration: 0
+    isTriggered: 0
+  - convoObject: {fileID: 0}
+    lastUsedTime: 0
+    breakDuration: 0
+    isTriggered: 0
+  - convoObject: {fileID: 0}
+    lastUsedTime: 0
+    breakDuration: 0
+    isTriggered: 0
+  - convoObject: {fileID: 0}
+    lastUsedTime: 0
+    breakDuration: 0
+    isTriggered: 0
+  - convoObject: {fileID: 0}
+    lastUsedTime: 0
+    breakDuration: 0
+    isTriggered: 0
+  - convoObject: {fileID: 0}
+    lastUsedTime: 0
+    breakDuration: 0
+    isTriggered: 0
+  - convoObject: {fileID: 0}
+    lastUsedTime: 0
+    breakDuration: 0
+    isTriggered: 0
+  isConvoObjectTriggered: 0
 --- !u!1 &1757855557824496333
 GameObject:
   m_ObjectHideFlags: 0
