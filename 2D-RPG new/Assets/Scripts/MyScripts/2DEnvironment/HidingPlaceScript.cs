@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class HidingPlaceScript : MonoBehaviour
 {
-    private SceneCombatManager combatManagerScript;
     public CameraSystemMasterScript cameraSystemScript;
 
     private int boundaryCount;
@@ -15,7 +14,6 @@ public class HidingPlaceScript : MonoBehaviour
     void Start()
     {
         boundaryCount = 0;
-        combatManagerScript = GameObject.Find("SceneCombatManager").GetComponent<SceneCombatManager>();
     }
 
     // Update is called once per frame
@@ -26,7 +24,7 @@ public class HidingPlaceScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(combatManagerScript.enemyAlerted == false)
+        if(SceneCombatManager.sceneCombatManager.enemyAlerted == false)
         {
             if (collision.CompareTag("PlayerBoundary") == true)
             {
@@ -34,7 +32,7 @@ public class HidingPlaceScript : MonoBehaviour
                 if (boundaryCount == 2)
                 {
                     //change camera filter
-                    combatManagerScript.playerHidden = true;
+                    SceneCombatManager.sceneCombatManager.playerHidden = true;
                     cameraSystemScript.hiddenModeCamera();
                 }
             }
@@ -43,14 +41,14 @@ public class HidingPlaceScript : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (combatManagerScript.enemyAlerted == false)
+        if (SceneCombatManager.sceneCombatManager.enemyAlerted == false)
         {
             if (collision.CompareTag("PlayerBoundary") == true)
             {
                 boundaryCount--;
                 if (boundaryCount < 2)
                 {
-                    combatManagerScript.playerHidden = false;
+                    SceneCombatManager.sceneCombatManager.playerHidden = false;
                     cameraSystemScript.stealthModeCamera();
                     //change camera filter
                 }

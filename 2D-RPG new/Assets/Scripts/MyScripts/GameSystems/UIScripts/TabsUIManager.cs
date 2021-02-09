@@ -31,7 +31,7 @@ public class TabsUIManager : MonoBehaviour
     {
         if (hasQuestLogTab == true)
         {
-            //PCQuestLogScript.Open();
+            PCQuestLogScript.Open();
         }
 
         for (int i = 0; i < totalTabs; i++)

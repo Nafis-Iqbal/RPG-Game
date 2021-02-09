@@ -1,0 +1,2 @@
+1.Level Doors,spawn points etc are all to be named starting from the top left corner
+ and go clockwise.

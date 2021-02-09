@@ -5,9 +5,11 @@ using UnityEngine.UI;
 
 public class CustomWorldObjectScript : MonoBehaviour
 {
-    public bool interactable;//if the object itself is interactable or not
+    [Tooltip("if the object itself is interactable or not")]
+    public bool interactable;
     public Animator buttonUIPopUp;
-    public int interactionAction;//the index of action this object makes the player do
+    [Tooltip("the name of action this object makes the player do")]
+    public string interactionAction;
     public Transform interactionPosition;
 
     public CharacterInteractionScript interactionScript;
