@@ -19,7 +19,7 @@ public class CameraSystemMasterScript : MonoBehaviour
     public Animator blackBars, blackScreen, whiteScreen;
     public float levelSwitchDelay, cutsceneDelay, longDelay;
 
-    #region Map System
+    #region Map System & object culling
     //rigidbody2d object for simulating menumap object following physics
     private Rigidbody2D rb2d;
 
@@ -36,8 +36,13 @@ public class CameraSystemMasterScript : MonoBehaviour
 
     //left right Scroll limits
     public Vector2 lowerLeftMapLimit, upperRightMapLimit;
+
+    //camera object culling
+    Camera cameraObject;
+    int mapMask, normalMask, instinctAbilityMask;
     #endregion
 
+    #region Camera filters
     //Camera setups values;all values are used in "lens" section of vCAM
     public float normalModeZoom,stealthModeZoom,combatModeZoom,explorationModeZoom;
 
@@ -45,8 +50,9 @@ public class CameraSystemMasterScript : MonoBehaviour
     public Volume postProcessVolume;
     public VolumeProfile[] postProcessCameraFilterProfiles = new VolumeProfile[7];//0->Exploration 1->Stealth
     //2->Hidden 3->Combat 4->Happy 5->Sad 6->Mystery
-    
-    
+    #endregion
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -132,6 +138,9 @@ public class CameraSystemMasterScript : MonoBehaviour
         virtualCamScript.m_Lens.OrthographicSize = zoomInLimit + 5.0f;
 
         virtualCamScript.Follow = menuMapObject;
+
+        //turning on map layer
+        cameraObject.cullingMask |= 1 << LayerMask.NameToLayer("MapLayer");
     }
 
     public void exitMenuMapMode()
@@ -144,9 +153,13 @@ public class CameraSystemMasterScript : MonoBehaviour
 
         virtualCamScript.Follow = playerObject;
         menuMapObject.position = playerObject.position;
+
+        //turning off map layer
+        cameraObject.cullingMask &= ~(1 << LayerMask.NameToLayer("MapLayer"));
     }
     #endregion
 
+    #region Cinematics region
     public void cameraBlackScreen(bool fadeIn,int delayed = 0)
     {
         if (delayed == 0)
@@ -216,7 +229,9 @@ public class CameraSystemMasterScript : MonoBehaviour
             coroutineExecuting = false;
         }
     }
+    #endregion
 
+    #region camera filters
     public void stealthModeCamera()
     {
         postProcessVolume.profile = postProcessCameraFilterProfiles[1];
@@ -238,4 +253,5 @@ public class CameraSystemMasterScript : MonoBehaviour
         postProcessVolume.profile = postProcessCameraFilterProfiles[2];
         Debug.Log("This should work!");
     }
+    #endregion
 }
