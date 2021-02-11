@@ -18,6 +18,11 @@ public class FieldOfView : MonoBehaviour {
     private float startingAngleFront;
     private float startingAngleBack;
 
+    //New
+    bool isPlayerHidden;
+    bool isPlayerInDisguise;
+    //New
+
     private void Start()
     {
         mesh = new Mesh();
@@ -41,7 +46,12 @@ public class FieldOfView : MonoBehaviour {
 
         int vertexIndex = 1;
         int triangleIndex = 0;
-        
+
+        //New
+        isPlayerHidden = SceneCombatManager.sceneCombatManager.playerHidden;
+        isPlayerInDisguise = SceneCombatManager.sceneCombatManager.playerInDisguise;
+        //New
+
         //for front section..
         for (int i = 0; i <= rayCount; i++)
         {
@@ -58,6 +68,11 @@ public class FieldOfView : MonoBehaviour {
                 //if get player follow and attack
                 if (raycastHit2D.collider.tag == "Player")
                 {
+                    //New
+                    bool skip = onPlayerDetected();
+                    if (skip) continue;
+                    //New
+
                     vertex = origin + GetVectorFromAngle(angleFront) * viewDistanceFront;
                     characterWhichHasThisFOV.GetComponent<Movement>().MovementControl = Movement.MovementControls.walk;
                     Collider2D[] hitArea = Physics2D.OverlapCircleAll(characterWhichHasThisFOV.transform.position,
@@ -107,6 +122,11 @@ public class FieldOfView : MonoBehaviour {
                 //if get player follow and attack
                 if (raycastHit2D.collider.tag == "Player")
                 {
+                    //New
+                    bool skip = onPlayerDetected();
+                    if (skip) continue;
+                    //New
+
                     vertex = origin + GetVectorFromAngle(angleBack) * viewDistanceBack;
                     characterWhichHasThisFOV.GetComponent<Movement>().MovementControl = Movement.MovementControls.walk;
                     Collider2D[] hitArea = Physics2D.OverlapCircleAll(characterWhichHasThisFOV.transform.position,
@@ -145,6 +165,21 @@ public class FieldOfView : MonoBehaviour {
         mesh.triangles = triangles;
         mesh.bounds = new Bounds(origin, Vector3.one * 1000f);
     }
+
+    //New func
+    public bool onPlayerDetected()
+    {
+        if (isPlayerHidden == true) return true;
+
+        if (isPlayerInDisguise == true)
+        {
+            //check if player disguise type is similar to enemy group type;if similar,return false,else return true
+            return true;
+        }
+
+        return false;
+    }
+    //New func
 
     public void SetOrigin(Vector3 origin)
     {
