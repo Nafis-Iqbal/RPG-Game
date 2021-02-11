@@ -6,6 +6,7 @@ using UnityEngine.Rendering;
 
 public class CameraSystemMasterScript : MonoBehaviour
 {
+    public static CameraSystemMasterScript cameraSystemScript;
     #region CalculationVariables
     private bool coroutineExecuting;
     private float horizontalAxisValue, verticalAxisValue;
@@ -52,7 +53,22 @@ public class CameraSystemMasterScript : MonoBehaviour
     //2->Hidden 3->Combat 4->Happy 5->Sad 6->Mystery
     #endregion
 
-
+    private void Awake()
+    {
+        //Creating Singleton
+        if (CameraSystemMasterScript.cameraSystemScript == null)
+        {
+            CameraSystemMasterScript.cameraSystemScript = this;
+        }
+        else
+        {
+            if (CameraSystemMasterScript.cameraSystemScript != this)
+            {
+                Destroy(this.gameObject);
+            }
+        }
+        DontDestroyOnLoad(this.gameObject);
+    }
 
     // Start is called before the first frame update
     void Start()

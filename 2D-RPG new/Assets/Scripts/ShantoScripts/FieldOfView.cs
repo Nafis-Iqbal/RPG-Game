@@ -1,27 +1,34 @@
-﻿
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class FieldOfView : MonoBehaviour {
 
+    #region Shanto Variables
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private LayerMask enemyLayerForCallingGang;
+
     GameObject characterWhichHasThisFOV;
     private Mesh mesh;
+    Coroutine enemyAlertIncreaseOn;
+    Coroutine enemyAlertDecreaseOn;
+
     private float fovAngleFront;
     private float fovAngleBack;
+
     private float viewDistanceFront;
     private float viewDistanceBack;
-    private Vector3 origin;
+
     private float startingAngleFront;
     private float startingAngleBack;
 
-    //New
-    bool isPlayerHidden;
-    bool isPlayerInDisguise;
-    //New
+    private bool detectedInFront;
+    private bool detectedInBack;
+
+    private int detectionCount;
+
+    private Vector3 origin;
+    #endregion
 
     private void Start()
     {
@@ -30,7 +37,13 @@ public class FieldOfView : MonoBehaviour {
         origin = Vector3.zero;
     }
 
-    private void LateUpdate() 
+    private void LateUpdate()
+    {
+        ExcecuteAlertSystem();
+        ExcecuteFOV();
+    }
+
+    private void ExcecuteFOV()
     {
         int rayCount = 50;
         float angleFront = startingAngleFront;
@@ -38,59 +51,22 @@ public class FieldOfView : MonoBehaviour {
         float angleIncreaseFront = fovAngleFront / rayCount;
         float angleIncreaseBack = fovAngleBack / rayCount;
 
-        Vector3[] vertices = new Vector3[rayCount*2 + 2 + 2];
+        Vector3[] vertices = new Vector3[rayCount * 2 + 2 + 2];
         Vector2[] uv = new Vector2[vertices.Length];
-        int[] triangles = new int[rayCount *2 * 3];
+        int[] triangles = new int[rayCount * 2 * 3];
 
         vertices[0] = origin;
 
         int vertexIndex = 1;
         int triangleIndex = 0;
 
-        //New
-        isPlayerHidden = SceneCombatManager.sceneCombatManager.playerHidden;
-        isPlayerInDisguise = SceneCombatManager.sceneCombatManager.playerInDisguise;
-        //New
-
         //for front section..
         for (int i = 0; i <= rayCount; i++)
         {
             Vector3 vertex;
-            RaycastHit2D raycastHit2D = Physics2D.Raycast(origin, GetVectorFromAngle(angleFront), viewDistanceFront, layerMask);
-            if (raycastHit2D.collider == null)
-            {
-                
-                // No hit
-                vertex = origin + GetVectorFromAngle(angleFront) * viewDistanceFront;
-            }
-            else
-            {
-                //if get player follow and attack
-                if (raycastHit2D.collider.tag == "Player")
-                {
-                    //New
-                    bool skip = onPlayerDetected();
-                    if (skip) continue;
-                    //New
 
-                    vertex = origin + GetVectorFromAngle(angleFront) * viewDistanceFront;
-                    characterWhichHasThisFOV.GetComponent<Movement>().MovementControl = Movement.MovementControls.walk;
-                    Collider2D[] hitArea = Physics2D.OverlapCircleAll(characterWhichHasThisFOV.transform.position,
-                                                                     characterWhichHasThisFOV.GetComponent<Movement>().callGangRadius, enemyLayerForCallingGang);
-                    foreach (Collider2D hitObject in hitArea)
-                    {
-                        if(hitObject.GetComponent<Movement>().character == Movement.characters.enemy)
-                        {
-                            hitObject.GetComponent<Movement>().MovementControl = Movement.MovementControls.walk;
-                        }
-                        
+            vertex = FOV_Calc_and_Detection(angleFront, viewDistanceFront, 1); // 1 for identifying front section 
 
-                    }
-
-                }
-                else // Hit object
-                    vertex = raycastHit2D.point;
-            }
             vertices[vertexIndex] = vertex;
 
             if (i > 0)
@@ -105,45 +81,17 @@ public class FieldOfView : MonoBehaviour {
             vertexIndex++;
             angleFront -= angleIncreaseFront;
         }
+        if (detectionCount == 0)
+            detectedInFront = false;
+        detectionCount = 0;
 
         //for back section..
         for (int i = 0; i <= rayCount; i++)
         {
             Vector3 vertex;
-            RaycastHit2D raycastHit2D = Physics2D.Raycast(origin, GetVectorFromAngle(angleBack), viewDistanceBack, layerMask);
-            if (raycastHit2D.collider == null)
-            {
-                // No hit
-                vertex = origin + GetVectorFromAngle(angleBack) * viewDistanceBack;
-            }
-            else
-            {
 
-                //if get player follow and attack
-                if (raycastHit2D.collider.tag == "Player")
-                {
-                    //New
-                    bool skip = onPlayerDetected();
-                    if (skip) continue;
-                    //New
+            vertex = FOV_Calc_and_Detection(angleBack, viewDistanceBack, 2); // 2 for identifying back section 
 
-                    vertex = origin + GetVectorFromAngle(angleBack) * viewDistanceBack;
-                    characterWhichHasThisFOV.GetComponent<Movement>().MovementControl = Movement.MovementControls.walk;
-                    Collider2D[] hitArea = Physics2D.OverlapCircleAll(characterWhichHasThisFOV.transform.position,
-                                                                     characterWhichHasThisFOV.GetComponent<Movement>().callGangRadius, enemyLayerForCallingGang);
-                    foreach (Collider2D hitObject in hitArea)
-                    {
-                        if (hitObject.GetComponent<Movement>().character == Movement.characters.enemy)
-                        {
-                            hitObject.GetComponent<Movement>().MovementControl = Movement.MovementControls.walk;
-                        }
-
-
-                    }
-                }
-                else // Hit object
-                    vertex = raycastHit2D.point;
-            }
             vertices[vertexIndex] = vertex;
 
             if (i > 0)
@@ -158,6 +106,9 @@ public class FieldOfView : MonoBehaviour {
             vertexIndex++;
             angleBack -= angleIncreaseBack;
         }
+        if (detectionCount == 0)
+            detectedInBack = false;
+        detectionCount = 0;
 
 
         mesh.vertices = vertices;
@@ -166,20 +117,103 @@ public class FieldOfView : MonoBehaviour {
         mesh.bounds = new Bounds(origin, Vector3.one * 1000f);
     }
 
-    //New func
-    public bool onPlayerDetected()
+    /// <summary>
+    /// calculate the fov and perform detection tasks... 
+    /// </summary>
+    /// <param name="angle"></param>
+    /// <param name="viewDistance"></param>
+    /// <returns></returns>
+    private Vector3 FOV_Calc_and_Detection(float angle, float viewDistance, int section_ID)
     {
-        if (isPlayerHidden == true) return true;
-
-        if (isPlayerInDisguise == true)
+        Vector3 vertex;
+        RaycastHit2D raycastHit2D = Physics2D.Raycast(origin, GetVectorFromAngle(angle), viewDistance, layerMask);
+        if (raycastHit2D.collider == null)
         {
-            //check if player disguise type is similar to enemy group type;if similar,return false,else return true
-            return true;
+
+            // No hit
+            vertex = origin + GetVectorFromAngle(angle) * viewDistance;
+        }
+        else
+        {
+            //if get player follow and attack
+            if (raycastHit2D.collider.tag == "Player" && isPlayerDetectable() == true)
+            {
+                detectionCount++;
+
+                if(section_ID == 1)
+                {
+                    detectedInFront = true;
+                }
+                else if(section_ID == 2)
+                {
+                    detectedInBack = true;
+                }
+
+                vertex = origin + GetVectorFromAngle(angle) * viewDistance;
+
+            }
+            else // Hit object
+            {    
+                vertex = raycastHit2D.point;
+            }
         }
 
-        return false;
+        return vertex;
     }
-    //New func
+
+    public bool isPlayerDetectable()
+    {
+        if (SceneCombatManager.sceneCombatManager.playerHidden == true) return false;
+        if (SceneCombatManager.sceneCombatManager.playerInDisguise == true)
+        {
+            //if disguise type of the player and the enemy is same,and the enemy is of type 2,
+            //then return detected else undetected
+            return false;
+        }
+        return true;
+    }
+
+    void ExcecuteAlertSystem()
+    {
+        if(detectedInFront || detectedInBack)
+        {
+            if (enemyAlertDecreaseOn != null)
+                StopCoroutine(enemyAlertDecreaseOn);
+            StartAlert();
+        }
+        else
+        {
+            if (enemyAlertIncreaseOn != null)
+                StopCoroutine(enemyAlertIncreaseOn);
+            StopAlert();
+        }
+    }
+
+    /// <summary>
+    /// Things to do when player is inside line of sight... 
+    /// </summary>
+    private void StartAlert()
+    {
+       
+        if ( characterWhichHasThisFOV.GetComponent<CombatManager>().isAlertIncreasing == false )
+        {
+            enemyAlertIncreaseOn = StartCoroutine(characterWhichHasThisFOV.GetComponent<CombatManager>().EnemyAlertIncrease(enemyLayerForCallingGang));
+        }
+
+        
+    }
+    /// <summary>
+    /// Things to do when player is outside line of sight... 
+    /// </summary>
+    private void StopAlert()
+    {
+        if (characterWhichHasThisFOV.GetComponent<CombatManager>().isAlertDecreasing == false)
+        {
+            enemyAlertDecreaseOn = StartCoroutine(characterWhichHasThisFOV.GetComponent<CombatManager>().EnemyAlertDecrease());
+        }
+
+
+    }
 
     public void SetOrigin(Vector3 origin)
     {

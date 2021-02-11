@@ -49,32 +49,32 @@ public class SceneCombatManager : MonoBehaviour
         //GameObject currentObject = objectPooler.SpawnFromPool(enemyType, enemySpawnPoints[spawnPoint].transform.position, Quaternion.identity) as GameObject;
     }
 
-    public void isPlayerHidden()
+    public void setPlayerHiddenTrue()
     {
         playerHidden = true;
     }
 
-    public void isPlayerNotHidden()
+    public void setPlayerHiddenFalse()
     {
         playerHidden = false;
     }
 
-    public void isPlayerInDisguise()
+    public void setPlayerInDisguiseTrue()
     {
         playerInDisguise = true;
     }
 
-    public void isPlayerNotInDisguise()
+    public void setPlayerInDisguiseFalse()
     {
         playerInDisguise = false;
     }
 
-    public void isEnemiesAlerted()
+    public void setEnemiesAlertedTrue()
     {
         enemyAlerted = true;
     }
 
-    public void isEnemiesNotAlerted()
+    public void setEnemiesAlertedFalse()
     {
         enemyAlerted = false;
     }

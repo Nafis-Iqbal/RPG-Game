@@ -94,7 +94,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layerMask:
     serializedVersion: 2
-    m_Bits: 1280
+    m_Bits: 4352
   enemyLayerForCallingGang:
     serializedVersion: 2
     m_Bits: 512
